@@ -96,7 +96,7 @@
 /* dump objects freed by the garbage collector */
 //#define DUMP_GC_FREE
 /* dump objects leaking when freeing the runtime */
-//#define DUMP_LEAKS  1
+#define DUMP_LEAKS  1
 /* dump memory usage before running the garbage collector */
 //#define DUMP_MEM
 //#define DUMP_OBJECTS    /* dump objects in JS_FreeContext */
@@ -9803,6 +9803,12 @@ void *JS_GetOpaque(JSValueConst obj, JSClassID class_id)
     if (p->class_id != class_id)
         return NULL;
     return p->u.opaque;
+}
+
+JSClassID ObjectClassID(JSValueConst val){
+    JSObject *p;
+    p = JS_VALUE_GET_OBJ(val);
+    return p->class_id;
 }
 
 void *JS_GetOpaque2(JSContext *ctx, JSValueConst obj, JSClassID class_id)
@@ -54034,3 +54040,5 @@ void JS_AddIntrinsicTypedArrays(JSContext *ctx)
     JS_AddIntrinsicAtomics(ctx);
 #endif
 }
+
+
